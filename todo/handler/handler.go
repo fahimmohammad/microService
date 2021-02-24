@@ -11,6 +11,7 @@ import (
 type service struct {
 }
 
+// CreateTodo ...
 func (s *service) CreateTodo(ctx context.Context, r *pb.CreateTodoRequest) (*pb.CreateTodoResponse, error) {
 
 	todo := r.GetTodo()
