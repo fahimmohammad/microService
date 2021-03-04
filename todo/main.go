@@ -16,8 +16,11 @@ import (
 	pb "github.com/haquenafeem/basic-microservice/proto/todo"
 	_ "github.com/haquenafeem/basic-microservice/statik"
 	"github.com/haquenafeem/basic-microservice/todo/handler"
+	"github.com/haquenafeem/basic-microservice/todo/repository"
 	"github.com/rakyll/statik/fs"
 	"github.com/soheilhy/cmux"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
@@ -113,7 +116,12 @@ func main() {
 		port: 10000,
 	}
 
-	svcImpl := handler.NewService()
+	dbClient, err := getDBClient()
+	if err != nil {
+		log.Fatalf("cold not get database client: %v", err)
+	}
+	repo := repository.NewMongoRepository(dbClient)
+	svcImpl := handler.NewService(repo)
 
 	ms.srv = grpc.NewServer()
 
@@ -126,7 +134,7 @@ func main() {
 	gmux := runtime.NewServeMux(runtime.WithMarshalerOption(runtime.MIMEWildcard, &runtime.JSONPb{OrigName: true, EmitDefaults: true}))
 	ms.mux.Handle("/", gmux)
 
-	err := pb.RegisterTodoServiceHandlerFromEndpoint(context.Background(), gmux, ms.addr, []grpc.DialOption{grpc.WithInsecure()})
+	err = pb.RegisterTodoServiceHandlerFromEndpoint(context.Background(), gmux, ms.addr, []grpc.DialOption{grpc.WithInsecure()})
 	if err != nil {
 		log.Fatalf("could not register grpc gateway: %v", err)
 	}
@@ -161,4 +169,21 @@ func enableSwagger(mux *http.ServeMux, prefix string, jsonFilePath string) error
 		io.Copy(w, source)
 	})
 	return nil
+}
+
+func getDBClient() (*mongo.Client, error) {
+	fmt.Println("==========================")
+	fmt.Println("==========================")
+	fmt.Println("Connecting db client.")
+	fmt.Println("==========================")
+	fmt.Println("==========================")
+
+	cs := "mongodb://localhost:27017"
+	client, err := mongo.Connect(context.Background(), options.Client().ApplyURI(cs))
+	if err != nil {
+		return nil, err
+	}
+	// defer client.Disconnect(ctx)
+
+	return client, nil
 }

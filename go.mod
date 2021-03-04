@@ -8,6 +8,7 @@ require (
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0
 	github.com/rakyll/statik v0.1.7
 	github.com/soheilhy/cmux v0.1.4
+	go.mongodb.org/mongo-driver v1.4.6
 	google.golang.org/grpc v1.35.0
 	google.golang.org/grpc/examples v0.0.0-20210223174733-dabedfb38b74 // indirect
 	google.golang.org/protobuf v1.25.0
