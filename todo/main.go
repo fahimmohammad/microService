@@ -178,7 +178,7 @@ func getDBClient() (*mongo.Client, error) {
 	fmt.Println("==========================")
 	fmt.Println("==========================")
 
-	cs := "mongodb://localhost:27017"
+	cs := "mongodb://mongo:27017"
 	client, err := mongo.Connect(context.Background(), options.Client().ApplyURI(cs))
 	if err != nil {
 		return nil, err

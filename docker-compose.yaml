@@ -1,0 +1,34 @@
+version: "3.5"
+services:
+  basic_mongo:
+    container_name: basic_mongo
+    command: --serviceExecutor adaptive
+    image: mongo:4.2
+    restart: always
+    ports:
+      - 27019:27017
+    networks:
+      - inside
+    volumes:
+      - ./opt/basic_mongo:/data/db
+  
+  todo:
+    restart: always
+    container_name: basic_todo
+    build:
+      dockerfile: ./dockerfiles/todo.Dockerfile
+      context: .
+    depends_on:
+      - basic_mongo
+    links:
+      - basic_mongo:mongo
+    environment:
+      MONGODB_URL: mongodb://mongo:27017
+    ports:
+        - 8081:10000
+    networks:
+      - inside    
+
+networks:
+  inside:
+    external: false
