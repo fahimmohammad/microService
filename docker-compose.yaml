@@ -29,6 +29,21 @@ services:
     networks:
       - inside    
 
+  cron:
+    restart: always
+    container_name: basic_cron
+    build:
+      dockerfile: ./dockerfiles/cron.Dockerfile
+      context: .
+    depends_on:
+      - basic_mongo
+    links:
+      - basic_mongo:mongo
+    environment:
+      MONGODB_URL: mongodb://mongo:27017
+    networks:
+      - inside
+
 networks:
   inside:
     external: false
