@@ -9,4 +9,8 @@ http:
     
   - selector: student.StudentService.GetAllStudent
     get: /v1/student.StudentService/GetAllStudent
+
+  - selector: student.StudentService.CreateCourseEnrollment
+    post: /v1/student.StudentService/CreateCourseEnrollment
+    body: "*"
     

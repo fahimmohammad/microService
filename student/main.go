@@ -12,6 +12,7 @@ import (
 	"os/signal"
 	"strings"
 
+	courseProto "github.com/fahimsGit/basic-microservice/proto/course"
 	pb "github.com/fahimsGit/basic-microservice/proto/student"
 	_ "github.com/fahimsGit/basic-microservice/statik"
 	"github.com/fahimsGit/basic-microservice/student/handler"
@@ -111,6 +112,16 @@ func (s *ms) ServeHTTP(l net.Listener) {
 
 func main() {
 	// Init services
+
+	var conn *grpc.ClientConn
+	conn, err := grpc.Dial(":8010", grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("Client not started %v", err)
+	}
+	defer conn.Close()
+	var client courseProto.CourseServiceClient
+	client = courseProto.NewCourseServiceClient(conn)
+
 	ms := ms{
 		addr: "localhost:10000",
 		port: 10000,
@@ -121,7 +132,7 @@ func main() {
 		log.Fatalf("cold not get database client: %v", err)
 	}
 	repo := repository.NewMongoRepository(dbClient)
-	svcImpl := handler.NewService(repo)
+	svcImpl := handler.NewService(repo, client)
 
 	ms.srv = grpc.NewServer()
 

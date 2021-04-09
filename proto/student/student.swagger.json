@@ -11,6 +11,38 @@
     "application/json"
   ],
   "paths": {
+    "/v1/student.StudentService/CreateCourseEnrollment": {
+      "post": {
+        "operationId": "StudentService_CreateCourseEnrollment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/studentResponseCreateCourseEnrollment"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/studentRequestCreateCourseEnrollment"
+            }
+          }
+        ],
+        "tags": [
+          "StudentService"
+        ]
+      }
+    },
     "/v1/student.StudentService/CreateStudent": {
       "post": {
         "operationId": "StudentService_CreateStudent",
@@ -100,11 +132,42 @@
         }
       }
     },
+    "studentRequestCreateCourseEnrollment": {
+      "type": "object",
+      "properties": {
+        "StudentId": {
+          "type": "string"
+        },
+        "CourseId": {
+          "type": "string"
+        }
+      }
+    },
     "studentRequestCreateStudent": {
       "type": "object",
       "properties": {
         "Student": {
           "$ref": "#/definitions/studentStudent"
+        }
+      }
+    },
+    "studentResponseCreateCourseEnrollment": {
+      "type": "object",
+      "properties": {
+        "Id": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "CourseId": {
+          "type": "string"
+        },
+        "CourseName": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/studentStatus"
         }
       }
     },

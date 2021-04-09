@@ -5,6 +5,7 @@ import (
 	"log"
 	"time"
 
+	//courseproto "github.com/fahimsGit/basic-microservice/proto/course"
 	pb "github.com/fahimsGit/basic-microservice/proto/student"
 	"github.com/fahimsGit/basic-microservice/student/config"
 	"go.mongodb.org/mongo-driver/bson"
@@ -48,6 +49,25 @@ func (repoService studentRepository) GetAllStudent() ([]*pb.Student, error) {
 		students = append(students, &elem)
 	}
 	return students, nil
+}
+func (repoService studentRepository) CreateCourseEnrollment(req *pb.RequestCreateCourseEnrollment, courseName string) (*pb.ResponseCreateCourseEnrollment, error) {
+	ctx, _ := context.WithTimeout(context.Background(), 1*time.Minute)
+	collection := repoService.client.Database(repoService.config.Dbname).Collection(repoService.config.Enrolment)
+	_, err := collection.InsertOne(ctx, req)
+	if err != nil {
+		return &pb.ResponseCreateCourseEnrollment{}, err
+	}
+	return &pb.ResponseCreateCourseEnrollment{
+		Id:         req.StudentId,
+		Name:       courseName,
+		CourseId:   req.StudentId,
+		CourseName: courseName,
+		Status: &pb.Status{
+			Success: true,
+			Error:   "",
+		},
+	}, nil
+
 }
 
 // NewMongoRepository returns a new todo repo for mongo database
