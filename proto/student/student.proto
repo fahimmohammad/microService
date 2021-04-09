@@ -28,7 +28,7 @@ message ResponseGetAllStudent{
 }
 
 message RequestCreateCourseEnrollment{
-    string Id = 1;
+    string StudentId = 1;
     string CourseId = 2;
 }
 
@@ -55,6 +55,6 @@ message RequestGetAllEnrollment{
 service StudentService{
     rpc CreateStudent(RequestCreateStudent) returns(ResponseCreateStudent);
     rpc GetAllStudent(google.protobuf.Empty) returns(ResponseGetAllStudent); 
-   // rpc CreateCourseEnrollment(RequestCreateCourseEnrollment) returns(ResponseCreateCourseEnrollment);
+    rpc CreateCourseEnrollment(RequestCreateCourseEnrollment) returns(ResponseCreateCourseEnrollment);
  //   rpc GetAllEnrollment(RequestGetAllEnrollment) returns(ResponseGetAllEnrollment);
 }
