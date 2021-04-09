@@ -4,3 +4,5 @@ protogen-todo:
 	--grpc-gateway_out=logtostderr=true,grpc_api_configuration=./proto/todo/todo.http.yaml:. \
 	--swagger_out=logtostderr=true,grpc_api_configuration=./proto/todo/todo.http.yaml:. \
 	./proto/todo/todo.proto
+
+	

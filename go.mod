@@ -1,4 +1,4 @@
-module github.com/haquenafeem/basic-microservice
+module github.com/fahimsGit/basic-microservice
 
 go 1.13
 
