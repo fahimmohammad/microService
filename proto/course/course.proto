@@ -1,0 +1,44 @@
+syntax = "proto3";
+package course;
+//import "google/protobuf/empty.proto";
+option go_package="proto/course";
+
+message Course{
+string id =1;
+string name=2;
+string department=3;
+}
+message Status{
+    bool Success = 1;
+    string Error = 2;
+}
+
+message RequestGetSingleCourse{
+    string CourseId = 1;
+   
+}
+
+message ResponseGetSingleCourse{
+Course course = 1;
+Status status = 2;
+}
+
+message RequestCreateCourse{
+Course course=1;
+}
+
+message ResponseCreateCourse{
+Course course = 1;
+Status status = 2;
+}
+
+/*message ResponseGetAllCourse{
+    repeated Course course=1;
+}*/
+
+service CourseService{
+rpc CreateCourse(RequestCreateCourse) returns(ResponseCreateCourse);
+//rpc GetAllCourse(google.protobuf.Empty) returns(ResponseGetAllCourse);
+rpc GetSingleCourse(RequestGetSingleCourse) returns(ResponseGetSingleCourse);
+
+}

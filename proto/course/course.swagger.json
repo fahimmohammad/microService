@@ -1,0 +1,137 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "proto/course/course.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/course.CourseService/CreateCourse": {
+      "post": {
+        "operationId": "CourseService_CreateCourse",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/courseResponseCreateCourse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/courseRequestCreateCourse"
+            }
+          }
+        ],
+        "tags": [
+          "CourseService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "courseCourse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "department": {
+          "type": "string"
+        }
+      }
+    },
+    "courseRequestCreateCourse": {
+      "type": "object",
+      "properties": {
+        "course": {
+          "$ref": "#/definitions/courseCourse"
+        }
+      }
+    },
+    "courseResponseCreateCourse": {
+      "type": "object",
+      "properties": {
+        "course": {
+          "$ref": "#/definitions/courseCourse"
+        },
+        "status": {
+          "$ref": "#/definitions/courseStatus"
+        }
+      }
+    },
+    "courseResponseGetSingleCourse": {
+      "type": "object",
+      "properties": {
+        "course": {
+          "$ref": "#/definitions/courseCourse"
+        },
+        "status": {
+          "$ref": "#/definitions/courseStatus"
+        }
+      }
+    },
+    "courseStatus": {
+      "type": "object",
+      "properties": {
+        "Success": {
+          "type": "boolean"
+        },
+        "Error": {
+          "type": "string"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "type_url": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

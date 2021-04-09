@@ -1,0 +1,168 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "proto/student/student.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/student.StudentService/CreateStudent": {
+      "post": {
+        "operationId": "StudentService_CreateStudent",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/studentResponseCreateStudent"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/studentRequestCreateStudent"
+            }
+          }
+        ],
+        "tags": [
+          "StudentService"
+        ]
+      }
+    },
+    "/v1/student.StudentService/GetAllStudent": {
+      "get": {
+        "operationId": "StudentService_GetAllStudent",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/studentResponseGetAllStudent"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "tags": [
+          "StudentService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "type_url": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "studentRequestCreateStudent": {
+      "type": "object",
+      "properties": {
+        "Student": {
+          "$ref": "#/definitions/studentStudent"
+        }
+      }
+    },
+    "studentResponseCreateStudent": {
+      "type": "object",
+      "properties": {
+        "Name": {
+          "type": "string"
+        },
+        "Id": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/studentStatus"
+        }
+      }
+    },
+    "studentResponseGetAllStudent": {
+      "type": "object",
+      "properties": {
+        "students": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/studentStudent"
+          }
+        },
+        "status": {
+          "$ref": "#/definitions/studentStatus"
+        }
+      }
+    },
+    "studentStatus": {
+      "type": "object",
+      "properties": {
+        "Success": {
+          "type": "boolean"
+        },
+        "Error": {
+          "type": "string"
+        }
+      }
+    },
+    "studentStudent": {
+      "type": "object",
+      "properties": {
+        "Name": {
+          "type": "string"
+        },
+        "Id": {
+          "type": "string"
+        },
+        "Roll": {
+          "type": "string"
+        },
+        "Session": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

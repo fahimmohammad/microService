@@ -1,0 +1,60 @@
+syntax = "proto3";
+package student;
+import "google/protobuf/empty.proto";
+option go_package="proto/student";
+
+message Student{
+    string Name = 1;
+    string Id = 2;
+    string Roll = 3;
+    string Session = 4; 
+}
+message Status{
+    bool Success = 1;
+    string Error = 2;
+}
+
+message RequestCreateStudent{
+    Student Student = 1;
+}
+message ResponseCreateStudent{
+    string Name = 1;
+    string Id = 2;
+    Status status = 3;
+}
+message ResponseGetAllStudent{
+    repeated Student students = 1;
+    Status status = 2;
+}
+
+message RequestCreateCourseEnrollment{
+    string Id = 1;
+    string CourseId = 2;
+}
+
+message ResponseCreateCourseEnrollment{
+    string Id = 1;
+    string Name =2;
+    string CourseId = 3;
+    string CourseName = 4;
+    Status status = 5;
+}
+
+message ResponseGetAllEnrollment{
+    string Id = 1;
+    string Name =2;
+    repeated string CourseId = 3;
+    repeated string CourseName = 4;
+    Status status = 5;
+
+}
+
+message RequestGetAllEnrollment{
+    string Id = 1;
+}
+service StudentService{
+    rpc CreateStudent(RequestCreateStudent) returns(ResponseCreateStudent);
+    rpc GetAllStudent(google.protobuf.Empty) returns(ResponseGetAllStudent); 
+   // rpc CreateCourseEnrollment(RequestCreateCourseEnrollment) returns(ResponseCreateCourseEnrollment);
+ //   rpc GetAllEnrollment(RequestGetAllEnrollment) returns(ResponseGetAllEnrollment);
+}

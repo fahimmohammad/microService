@@ -1,0 +1,12 @@
+type: google.api.Service
+config_version: 3
+
+http:
+  rules:
+  - selector: student.StudentService.CreateStudent
+    post: /v1/student.StudentService/CreateStudent
+    body: "*"
+    
+  - selector: student.StudentService.GetAllStudent
+    get: /v1/student.StudentService/GetAllStudent
+    
