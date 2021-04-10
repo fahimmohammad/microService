@@ -14,3 +14,6 @@ http:
     post: /v1/student.StudentService/CreateCourseEnrollment
     body: "*"
     
+  - selector: student.StudentService.GetAllEnrollment
+    get: /v1/student.StudentService/GetAllEnrollment  
+    

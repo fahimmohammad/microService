@@ -8,5 +8,7 @@ import (
 type StudentRepository interface {
 	CreateStudent(*pb.Student) (*pb.Student, error)
 	GetAllStudent() ([]*pb.Student, error)
-	CreateCourseEnrollment(*pb.RequestCreateCourseEnrollment, string) (*pb.ResponseCreateCourseEnrollment, error)
+	CreateCourseEnrollment(*pb.Enrolment) (*pb.Enrolment, error)
+	GetSingleStudent(string) (*pb.Student, error)
+	GetAllEnrollment(string) ([]*pb.Enrolment, error)
 }

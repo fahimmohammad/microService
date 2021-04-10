@@ -75,6 +75,36 @@
         ]
       }
     },
+    "/v1/student.StudentService/GetAllEnrollment": {
+      "get": {
+        "operationId": "StudentService_GetAllEnrollment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/studentResponseGetAllEnrollment"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "StudentService"
+        ]
+      }
+    },
     "/v1/student.StudentService/GetAllStudent": {
       "get": {
         "operationId": "StudentService_GetAllStudent",
@@ -132,6 +162,23 @@
         }
       }
     },
+    "studentEnrolment": {
+      "type": "object",
+      "properties": {
+        "Id": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "CourseId": {
+          "type": "string"
+        },
+        "CourseName": {
+          "type": "string"
+        }
+      }
+    },
     "studentRequestCreateCourseEnrollment": {
       "type": "object",
       "properties": {
@@ -154,17 +201,8 @@
     "studentResponseCreateCourseEnrollment": {
       "type": "object",
       "properties": {
-        "Id": {
-          "type": "string"
-        },
-        "Name": {
-          "type": "string"
-        },
-        "CourseId": {
-          "type": "string"
-        },
-        "CourseName": {
-          "type": "string"
+        "enrolment": {
+          "$ref": "#/definitions/studentEnrolment"
         },
         "status": {
           "$ref": "#/definitions/studentStatus"
@@ -179,6 +217,21 @@
         },
         "Id": {
           "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/studentStatus"
+        }
+      }
+    },
+    "studentResponseGetAllEnrollment": {
+      "type": "object",
+      "properties": {
+        "enrolment": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/studentEnrolment"
+          },
+          "title": "string Id = 1;\nstring Name =2;\nrepeated Course course = 3;"
         },
         "status": {
           "$ref": "#/definitions/studentStatus"

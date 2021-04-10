@@ -50,27 +50,60 @@ func (repoService studentRepository) GetAllStudent() ([]*pb.Student, error) {
 	}
 	return students, nil
 }
-func (repoService studentRepository) CreateCourseEnrollment(req *pb.RequestCreateCourseEnrollment, courseName string) (*pb.ResponseCreateCourseEnrollment, error) {
+func (repoService studentRepository) CreateCourseEnrollment(enrolment *pb.Enrolment) (*pb.Enrolment, error) {
 	ctx, _ := context.WithTimeout(context.Background(), 1*time.Minute)
 	collection := repoService.client.Database(repoService.config.Dbname).Collection(repoService.config.Enrolment)
-	_, err := collection.InsertOne(ctx, req)
+	_, err := collection.InsertOne(ctx, enrolment)
 	if err != nil {
-		return &pb.ResponseCreateCourseEnrollment{}, err
+		return enrolment, err
 	}
-	return &pb.ResponseCreateCourseEnrollment{
-		Id:         req.StudentId,
-		Name:       courseName,
-		CourseId:   req.StudentId,
-		CourseName: courseName,
-		Status: &pb.Status{
-			Success: true,
-			Error:   "",
-		},
-	}, nil
+	return enrolment, nil
 
 }
 
-// NewMongoRepository returns a new todo repo for mongo database
+func (repoService studentRepository) GetSingleStudent(studentId string) (*pb.Student, error) {
+	var student *pb.Student
+	ctx, _ := context.WithTimeout(context.Background(), 3*time.Minute)
+	collection := repoService.client.Database(repoService.config.Dbname).Collection(repoService.config.Students)
+	err := collection.FindOne(ctx, bson.M{"id": studentId}).Decode(&student)
+	if err != nil {
+		return &pb.Student{
+			Name:    "",
+			Id:      studentId,
+			Roll:    "",
+			Session: "",
+		}, err
+	}
+	return &pb.Student{
+		Name:    student.Name,
+		Id:      student.Id,
+		Roll:    student.Roll,
+		Session: student.Session,
+	}, nil
+}
+
+func (repoService studentRepository) GetAllEnrollment(studentId string) ([]*pb.Enrolment, error) {
+	var enrolment []*pb.Enrolment
+	ctx, _ := context.WithTimeout(context.Background(), 3*time.Minute)
+	collection := repoService.client.Database(repoService.config.Dbname).Collection(repoService.config.Students)
+	resultCursor, err := collection.Find(ctx, bson.M{"id": studentId})
+
+	if err != nil {
+		return enrolment, err
+	}
+	for resultCursor.Next(context.TODO()) {
+
+		// create a value into which the single document can be decoded
+		var elem pb.Enrolment
+		err := resultCursor.Decode(&elem)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		enrolment = append(enrolment, &elem)
+	}
+	return enrolment, nil
+}
 func NewMongoRepository(dbClient *mongo.Client) StudentRepository {
 	return &studentRepository{
 		client: dbClient,

@@ -15,9 +15,8 @@ type courseRepository struct {
 	config config.DBConfig
 }
 
-// Create ...
 func (repoService courseRepository) CreateCourse(course *pb.Course) (*pb.Course, error) {
-	ctx, _ := context.WithTimeout(context.Background(), 3*time.Minute)
+	ctx, _ := context.WithTimeout(context.Background(), 1*time.Minute)
 	collection := repoService.client.Database(repoService.config.Dbname).Collection(repoService.config.Course)
 	_, err := collection.InsertOne(ctx, course)
 	if err != nil {
@@ -28,7 +27,7 @@ func (repoService courseRepository) CreateCourse(course *pb.Course) (*pb.Course,
 
 func (repoService courseRepository) GetSingleCourse(courseId string) (*pb.Course, error) {
 	var course *pb.Course
-	ctx, _ := context.WithTimeout(context.Background(), 3*time.Minute)
+	ctx, _ := context.WithTimeout(context.Background(), 1*time.Minute)
 	collection := repoService.client.Database(repoService.config.Dbname).Collection(repoService.config.Course)
 	err := collection.FindOne(ctx, bson.M{"id": courseId}).Decode(&course)
 	if err != nil {
@@ -37,7 +36,6 @@ func (repoService courseRepository) GetSingleCourse(courseId string) (*pb.Course
 	return course, nil
 }
 
-// NewMongoRepository returns a new todo repo for mongo database
 func NewMongoRepository(dbClient *mongo.Client) CourseRepository {
 	return &courseRepository{
 		client: dbClient,

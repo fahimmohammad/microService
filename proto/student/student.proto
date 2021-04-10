@@ -14,6 +14,16 @@ message Status{
     string Error = 2;
 }
 
+message Enrolment{
+    string Id = 1;
+    string Name =2;
+    string CourseId = 3;
+    string CourseName = 4;
+}
+message Course{
+    string CourseId = 1;
+    string CourseName = 2;
+}
 message RequestCreateStudent{
     Student Student = 1;
 }
@@ -33,19 +43,16 @@ message RequestCreateCourseEnrollment{
 }
 
 message ResponseCreateCourseEnrollment{
-    string Id = 1;
-    string Name =2;
-    string CourseId = 3;
-    string CourseName = 4;
-    Status status = 5;
+    Enrolment enrolment = 1;
+    Status status = 2;
 }
 
 message ResponseGetAllEnrollment{
-    string Id = 1;
+    /*string Id = 1;
     string Name =2;
-    repeated string CourseId = 3;
-    repeated string CourseName = 4;
-    Status status = 5;
+    repeated Course course = 3;*/
+    repeated Enrolment enrolment = 1;
+    Status status = 2;
 
 }
 
@@ -56,5 +63,5 @@ service StudentService{
     rpc CreateStudent(RequestCreateStudent) returns(ResponseCreateStudent);
     rpc GetAllStudent(google.protobuf.Empty) returns(ResponseGetAllStudent); 
     rpc CreateCourseEnrollment(RequestCreateCourseEnrollment) returns(ResponseCreateCourseEnrollment);
- //   rpc GetAllEnrollment(RequestGetAllEnrollment) returns(ResponseGetAllEnrollment);
+    rpc GetAllEnrollment(RequestGetAllEnrollment) returns(ResponseGetAllEnrollment);
 }
