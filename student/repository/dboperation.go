@@ -85,7 +85,7 @@ func (repoService studentRepository) GetSingleStudent(studentId string) (*pb.Stu
 func (repoService studentRepository) GetAllEnrollment(studentId string) ([]*pb.Enrolment, error) {
 	var enrolment []*pb.Enrolment
 	ctx, _ := context.WithTimeout(context.Background(), 3*time.Minute)
-	collection := repoService.client.Database(repoService.config.Dbname).Collection(repoService.config.Students)
+	collection := repoService.client.Database(repoService.config.Dbname).Collection(repoService.config.Enrolment)
 	resultCursor, err := collection.Find(ctx, bson.M{"id": studentId})
 
 	if err != nil {
@@ -102,6 +102,7 @@ func (repoService studentRepository) GetAllEnrollment(studentId string) ([]*pb.E
 
 		enrolment = append(enrolment, &elem)
 	}
+
 	return enrolment, nil
 }
 func NewMongoRepository(dbClient *mongo.Client) StudentRepository {
